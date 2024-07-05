@@ -1,0 +1,29 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct 28 17:54:00 2022
+
+@author: rajes
+"""
+
+import cv2
+import face_recognition
+CAMERA_MODE=0
+CAMERA = cv2.VideoCapture(CAMERA_MODE)
+
+
+while True:
+    ImageFlag,Captured_Image = CAMERA.read()
+    cv2.imshow('Raw footage' , Captured_Image)
+    if ImageFlag:
+        face_coordinates = face_recognition.face_locations(Captured_Image)
+        facialLandmark  = face_recognition.face_landmarks(Captured_Image)
+        print(facialLandmark)
+        print (face_coordinates)    
+        for (top, right, bottom, left) in face_coordinates:           
+            cv2.rectangle(Captured_Image, (left , top), (right,bottom), (0 , 150 , 0), 2)
+            
+        cv2.imshow('FACE_DETECTION' , Captured_Image)
+    if cv2.waitKey(1)>0:
+        cv2.destroyWindow("Raw footage")
+        CAMERA.release()
+        break
